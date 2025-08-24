@@ -3,195 +3,634 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zerpo ($ZERPO)</title>
+  <title>Zerpo ($ZERPO) - Alien Meme Token</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d0d1a;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: linear-gradient(135deg, #0a0a2a, #0d0d1a, #0c0c24);
       color: #f0f0f0;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    header, section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    h1, h2 {
-      color: #70ffde;
-    }
-
-    a {
-      color: #70ffde;
-      text-decoration: none;
-    }
-
-    .section {
-      max-width: 900px;
-      margin: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #444;
-    }
-
-    canvas {
+    #bgCanvas {
       position: fixed;
       top: 0;
       left: 0;
       z-index: -1;
     }
 
-    .contract, .supply {
-      background-color: #111122;
-      padding: 20px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      margin: 40px auto;
-      max-width: 600px;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .footer {
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 40px 20px;
+    }
+
+    .ufo-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      margin-bottom: 40px;
+    }
+
+    #ufo-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #70ffde, #4dffd1, #00ffbb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(112, 255, 222, 0.5);
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      color: #a0f0e0;
+      max-width: 700px;
+    }
+
+    .pulse-button {
+      background: linear-gradient(45deg, #00ffbb, #70ffde);
+      color: #0a0a2a;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(112, 255, 222, 0.5);
+      animation: pulse 2s infinite;
+    }
+
+    .pulse-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(112, 255, 222, 0.8);
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(112, 255, 222, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(112, 255, 222, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(112, 255, 222, 0);
+      }
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #70ffde;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, #70ffde, transparent);
+    }
+
+    .section-content {
+      background: rgba(10, 10, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(112, 255, 222, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(112, 255, 222, 0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li::before {
+      content: '👽';
+      margin-right: 15px;
+      font-size: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(112, 255, 222, 0.1);
+    }
+
+    th {
+      background: rgba(112, 255, 222, 0.1);
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .status-complete {
+      background: rgba(0, 255, 136, 0.2);
+      color: #00ff88;
+    }
+
+    .status-progress {
+      background: rgba(255, 204, 0, 0.2);
+      color: #ffcc00;
+    }
+
+    .status-planned {
+      background: rgba(112, 255, 222, 0.2);
+      color: #70ffde;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .link-card {
+      background: rgba(10, 10, 42, 0.5);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(112, 255, 222, 0.1);
+    }
+
+    .link-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(112, 255, 222, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .link-card h3 {
+      margin-bottom: 15px;
+      color: #70ffde;
+    }
+
+    .link-card a {
+      display: inline-block;
+      padding: 10px 25px;
+      background: rgba(112, 255, 222, 0.1);
+      color: #70ffde;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .link-card a:hover {
+      background: rgba(112, 255, 222, 0.2);
+    }
+
+    .contract-box, .supply-box {
+      text-align: center;
       padding: 30px;
-      font-size: 14px;
-      color: #888;
+      background: rgba(10, 10, 42, 0.5);
+      border-radius: 15px;
+      margin: 30px 0;
+      border: 1px solid rgba(112, 255, 222, 0.1);
+    }
+
+    .contract-address {
+      font-family: monospace;
+      font-size: 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      word-break: break-all;
+      color: #70ffde;
+    }
+
+    .copy-btn {
+      background: linear-gradient(45deg, #00ffbb, #70ffde);
+      color: #0a0a2a;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(112, 255, 222, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      margin-top: 60px;
+      border-top: 1px solid rgba(112, 255, 222, 0.1);
+      color: #a0a0c0;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .tagline {
+        font-size: 1.2rem;
+      }
+      
+      .section-content {
+        padding: 25px;
+      }
+      
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Floating animation for elements */
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    /* Shooting stars */
+    .shooting-star {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(112, 255, 222, 1), rgba(112, 255, 222, 0));
+      animation: shooting 3s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes shooting {
+      0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(100vw) translateY(100vh);
+      }
     }
   </style>
 </head>
 <body>
+  <canvas id="bgCanvas"></canvas>
+  
+  <!-- Shooting stars -->
+  <div class="shooting-star" style="top: 20%; left: 10%; width: 100px; animation-delay: 0s;"></div>
+  <div class="shooting-star" style="top: 40%; left: 5%; width: 150px; animation-delay: 1.5s;"></div>
+  <div class="shooting-star" style="top: 70%; left: 2%; width: 80px; animation-delay: 3s;"></div>
+  <div class="shooting-star" style="top: 30%; left: 15%; width: 120px; animation-delay: 4.5s;"></div>
 
-<canvas id="bgCanvas"></canvas>
+  <div class="container">
+    <header>
+      <div class="ufo-container">
+        <canvas id="ufo-canvas"></canvas>
+      </div>
+      <h1 class="float">ZERPO ($ZERPO)</h1>
+      <p class="tagline">No promises. No utility. Just vibes, memes, and daily livestreams.</p>
+      <div>
+        <button class="pulse-button">BUY ON PUMP.FUN</button>
+        <button class="pulse-button">JOIN TELEGRAM</button>
+      </div>
+    </header>
 
-<header>
-  <h1>👽 Zerpo ($ZERPO)</h1>
-  <p><strong>No promises. No utility. Just vibes, memes, and daily livestreams.</strong></p>
-</header>
+    <section>
+      <div class="section-content">
+        <h2>👽 What is Zerpo?</h2>
+        <p>Zerpo is a community-powered meme coin created for fun, culture, and chaos. It's inspired by alien lore, zero-to-hero narratives, and pure degen energy.</p>
+        
+        <ul>
+          <li><strong>Token Name</strong>: Zerpo</li>
+          <li><strong>Symbol</strong>: $ZERPO</li>
+          <li><strong>Total Supply</strong>: 1,000,000,000</li>
+          <li><strong>Taxes</strong>: 0%</li>
+          <li><strong>Chain</strong>: Solana</li>
+        </ul>
+      </div>
+    </section>
 
-<section class="section">
-  <h2>🔥 What is Zerpo?</h2>
-  <p>Zerpo is a community-powered meme coin created for fun, culture, and chaos.<br>
-     It’s inspired by alien lore, zero-to-hero narratives, and pure degen energy.</p>
+    <section>
+      <div class="section-content">
+        <h2>📅 Milestones</h2>
+        <table>
+          <thead>
+            <tr><th>Milestone</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Meme Seeding & Soft Launch</td><td><span class="status status-complete">Complete</span></td></tr>
+            <tr><td>Website + GitHub Online</td><td><span class="status status-complete">Live</span></td></tr>
+            <tr><td>Telegram + Twitter Setup</td><td><span class="status status-complete">Active</span></td></tr>
+            <tr><td>Token Launch</td><td><span class="status status-progress">In Progress</span></td></tr>
+            <tr><td>Listings (Dextools, Gecko, Birdeye)</td><td><span class="status status-planned">Incoming</span></td></tr>
+            <tr><td>Zerpo NFTs</td><td><span class="status status-planned">Planned</span></td></tr>
+            <tr><td>Meme Contests & Airdrops</td><td><span class="status status-progress">Ongoing</span></td></tr>
+            <tr><td>Lore & Comics</td><td><span class="status status-progress">Building</span></td></tr>
+            <tr><td>Mini dApp: Meme Staking / Lore Voting</td><td><span class="status status-planned">Planned</span></td></tr>
+            <tr><td>CEX Listing</td><td><span class="status status-planned">Long-term goal</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <ul style="list-style: none; padding-left: 0;">
-    <li>🌌 <strong>Token Name</strong>: Zerpo</li>
-    <li>🪙 <strong>Symbol</strong>: $ZERPO</li>
-    <li>📊 <strong>Total Supply</strong>: 1,000,000,000</li>
-    <li>🧪 <strong>Taxes</strong>: 0%</li>
-    <li>⚡ <strong>Chain</strong>: Pump.fun</li>
-  </ul>
-</section>
+    <section>
+      <div class="section-content">
+        <h2>🎥 Daily Livestream</h2>
+        <p>We go live <strong>every day</strong> to vibe with the community, talk memes, and track Zerpo's path to the stars.</p>
+        <p>🎙️ Topics: Memes, market vibes, community shoutouts, airdrops, and pure degen energy</p>
+      </div>
+    </section>
 
-<section class="section">
-  <h2>📅 Milestones</h2>
-  <table>
-    <thead>
-      <tr><th>Milestone</th><th>Status</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>✅ Meme Seeding & Soft Launch</td><td>Complete</td></tr>
-      <tr><td>✅ Website + GitHub Online</td><td>Live</td></tr>
-      <tr><td>✅ Telegram + Twitter Setup</td><td>Active</td></tr>
-      <tr><td>🔄 Token Launch</td><td>In Progress</td></tr>
-      <tr><td>🔄 Listings (Dextools, Gecko, Birdeye)</td><td>Incoming</td></tr>
-      <tr><td>🔄 Zerpo NFTs</td><td>Planned</td></tr>
-      <tr><td>🔄 Meme Contests & Airdrops</td><td>Ongoing</td></tr>
-      <tr><td>🔄 Lore & Comics</td><td>Building</td></tr>
-      <tr><td>🔄 Mini dApp: Meme Staking / Lore Voting</td><td>Planned</td></tr>
-      <tr><td>🔄 CEX Listing</td><td>Long-term goal</td></tr>
-    </tbody>
-  </table>
-</section>
+    <section>
+      <div class="section-content">
+        <h2>🌐 Official Links</h2>
+        <div class="links-grid">
+          <div class="link-card">
+            <h3>Twitter</h3>
+            <a href="https://twitter.com/ZerpoCoin" target="_blank">Follow Us</a>
+          </div>
+          <div class="link-card">
+            <h3>Telegram</h3>
+            <a href="https://t.me/ZerpoPortal" target="_blank">Join Group</a>
+          </div>
+          <div class="link-card">
+            <h3>Website</h3>
+            <a href="https://zerposol.github.io/" target="_blank">Explore Lore</a>
+          </div>
+          <div class="link-card">
+            <h3>Pump.fun</h3>
+            <a href="#" target="_blank">Buy $ZERPO</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="section">
-  <h2>🎥 Daily Livestream</h2>
-  <p>We go live <strong>every day</strong> to vibe with the community, talk memes, and track Zerpo’s path to the stars.</p>
-  <p>🎙️ Topics: Memes, market vibes, community shoutouts, airdrops, and pure degen energy</p>
-</section>
+    <section>
+      <div class="contract-box">
+        <h2>📜 Contract Address</h2>
+        <div class="contract-address">COMINGSOON1111111111111111111111111111111111111</div>
+        <button class="copy-btn">Copy Address</button>
+      </div>
 
-<section class="section">
-  <h2>🌐 Official Links</h2>
-  <p>
-    🐦 <a href="https://twitter.com/ZerpoCoin" target="_blank">Twitter</a><br>
-    💬 <a href="https://t.me/ZerpoPortal" target="_blank">Telegram</a><br>
-    🧠 <a href="https://zerposol.github.io/" target="_blank">Lore (on website)</a>
-  </p>
-</section>
+      <div class="supply-box">
+        <h2>💰 Total Supply</h2>
+        <p><strong>1,000,000,000 $ZERPO</strong></p>
+      </div>
+    </section>
 
-<section class="contract">
-  <h2>📜 Contract</h2>
-  <p><strong>Coming Soon...</strong></p>
-</section>
+    <section>
+      <div class="section-content">
+        <h2>📢 Get Involved</h2>
+        <p>Zerpo isn't just a token — it's a movement.<br>
+        Make memes. Join the stream. Build the Zerpoverse.</p>
+        <blockquote style="font-style: italic; margin-top: 20px; padding: 20px; border-left: 4px solid #70ffde; background: rgba(112, 255, 222, 0.1);">
+          "No chart, just vibes. But also charts." – Zerpo 👽
+        </blockquote>
+      </div>
+    </section>
 
-<section class="supply">
-  <h2>💰 Total Supply</h2>
-  <p><strong>1,000,000,000 $ZERPO</strong></p>
-</section>
+    <footer>
+      <p>&copy; 2025 Zerpo. All vibes reserved.</p>
+    </footer>
+  </div>
 
-<section class="section">
-  <h2>📢 Get Involved</h2>
-  <p>Zerpo isn’t just a token — it’s a movement.<br>
-  Make memes. Join the stream. Build the Zerpoverse.</p>
-  <blockquote>“No chart, just vibes. But also charts.” – Zerpo 👽</blockquote>
-</section>
-
-<footer class="footer">
-  &copy; 2025 Zerpo. All vibes reserved.
-</footer>
-
-<!-- Three.js and simple floating emoji animation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-  const canvas = document.getElementById('bgCanvas');
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  const loader = new THREE.TextureLoader();
-  const emojiTexture = loader.load('https://twemoji.maxcdn.com/v/latest/72x72/1f47d.png'); // alien emoji
-
-  const particles = [];
-  const material = new THREE.SpriteMaterial({ map: emojiTexture });
-
-  for (let i = 0; i < 100; i++) {
-    const sprite = new THREE.Sprite(material);
-    sprite.position.set(
-      (Math.random() - 0.5) * 20,
-      (Math.random() - 0.5) * 20,
-      (Math.random() - 0.5) * 20
-    );
-    sprite.scale.set(0.5, 0.5, 0.5);
-    scene.add(sprite);
-    particles.push(sprite);
-  }
-
-  camera.position.z = 5;
-
-  function animate() {
-    requestAnimationFrame(animate);
-    particles.forEach(p => {
-      p.rotation += 0.01;
-      p.position.y += 0.002;
-      if (p.position.y > 10) p.position.y = -10;
-    });
-    renderer.render(scene, camera);
-  }
-
-  animate();
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
+  <script>
+    // Background animation with Three.js
+    const bgCanvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-</script>
+
+    // Create stars
+    const starsGeometry = new THREE.BufferGeometry();
+    const starsMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.1,
+      sizeAttenuation: true
+    });
+
+    const starsVertices = [];
+    for (let i = 0; i < 10000; i++) {
+      const x = (Math.random() - 0.5) * 2000;
+      const y = (Math.random() - 0.5) * 2000;
+      const z = (Math.random() - 0.5) * 2000;
+      starsVertices.push(x, y, z);
+    }
+
+    starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+    const stars = new THREE.Points(starsGeometry, starsMaterial);
+    scene.add(stars);
+
+    camera.position.z = 5;
+
+    function animateBackground() {
+      requestAnimationFrame(animateBackground);
+      stars.rotation.x += 0.0001;
+      stars.rotation.y += 0.0001;
+      renderer.render(scene, camera);
+    }
+
+    animateBackground();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // UFO Animation
+    const ufoCanvas = document.getElementById('ufo-canvas');
+    const ufoScene = new THREE.Scene();
+    const ufoCamera = new THREE.PerspectiveCamera(75, ufoCanvas.clientWidth / ufoCanvas.clientHeight, 0.1, 1000);
+    const ufoRenderer = new THREE.WebGLRenderer({ canvas: ufoCanvas, alpha: true });
+    ufoRenderer.setSize(ufoCanvas.clientWidth, ufoCanvas.clientHeight);
+
+    // Create UFO
+    const ufoGeometry = new THREE.ConeGeometry(1, 0.5, 8);
+    const ufoMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x70ffde,
+      shininess: 100,
+      emissive: 0x00ffbb,
+      emissiveIntensity: 0.2
+    });
+    const ufo = new THREE.Mesh(ufoGeometry, ufoMaterial);
+    ufo.rotation.x = Math.PI;
+    ufoScene.add(ufo);
+
+    // Add dome to UFO
+    const domeGeometry = new THREE.SphereGeometry(0.7, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const domeMaterial = new THREE.MeshPhongMaterial({
+      color: 0x88ffff,
+      shininess: 100,
+      transparent: true,
+      opacity: 0.7
+    });
+    const dome = new THREE.Mesh(domeGeometry, domeMaterial);
+    dome.position.y = 0.2;
+    dome.rotation.x = Math.PI;
+    ufo.add(dome);
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    ufoScene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0x70ffde, 1);
+    directionalLight.position.set(5, 5, 5);
+    ufoScene.add(directionalLight);
+
+    // Add UFO glow
+    const glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+    const glowMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        glowColor: { value: new THREE.Color(0x00ffbb) },
+        viewVector: { value: ufoCamera.position }
+      },
+      vertexShader: `
+        uniform vec3 viewVector;
+        varying float intensity;
+        void main() {
+          vec3 vNormal = normalize(normalMatrix * normal);
+          vec3 vNormel = normalize(normalMatrix * viewVector);
+          intensity = pow(0.4 - dot(vNormal, vNormel), 2.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 glowColor;
+        varying float intensity;
+        void main() {
+          vec3 glow = glowColor * intensity;
+          gl_FragColor = vec4(glow, 1.0);
+        }
+      `,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      transparent: true
+    });
+    
+    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+    glow.scale.set(1.1, 1.1, 1.1);
+    ufo.add(glow);
+
+    ufoCamera.position.z = 5;
+
+    let time = 0;
+    function animateUFO() {
+      requestAnimationFrame(animateUFO);
+      time += 0.02;
+      
+      ufo.rotation.y = time * 0.5;
+      ufo.position.y = Math.sin(time) * 0.5;
+      
+      ufoRenderer.render(ufoScene, ufoCamera);
+    }
+
+    animateUFO();
+
+    // Resize handler for UFO canvas
+    window.addEventListener('resize', () => {
+      ufoCamera.aspect = ufoCanvas.clientWidth / ufoCanvas.clientHeight;
+      ufoCamera.updateProjectionMatrix();
+      ufoRenderer.setSize(ufoCanvas.clientWidth, ufoCanvas.clientHeight);
+    });
+
+    // Copy button functionality
+    document.querySelector('.copy-btn').addEventListener('click', function() {
+      const textArea = document.createElement('textarea');
+      textArea.value = 'COMINGSOON1111111111111111111111111111111111111';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      this.textContent = 'Copied!';
+      setTimeout(() => {
+        this.textContent = 'Copy Address';
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
